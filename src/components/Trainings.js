@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import moment from 'moment';
-//import AppBar from '@material-ui/core/AppBar';
-//import Tabs from '@material-ui/core/Tabs';
-//import Tab from '@material-ui/core/Tab'; 
 
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-material.css';
@@ -22,20 +19,36 @@ function Trainings() {
     .then(data => setTrainings(data))
     .catch(err => console.error(err))
   }
-  //cellStyle: params => (params.value ===  "High" || params.value ===  "high")  ? {color: 'red'} : {color:'black'},
 
+  const testing = (date) => {
+    console.log(date)
+    console.log(moment(date).format('MMMM Do YYYY, h:mm:ss a'));
+  }
+ 
   const columns = [
-    {field: 'date', sortable: true, filter: true,},
+    {
+      headerName: 'Date', 
+      field: 'date',
+      cellRendererFramework: params => 
+      <div>
+        {moment(params.value).format('MMMM Do YYYY, h:mm:ss a')}
+      </div>,
+      sortable: true,
+      filter: true
+    },
     {field: 'activity', sortable: true, filter: true},
     {field: 'duration', sortable: true, filter: true},
-    {headerName: 'Customer', field: 'customer.firstname', sortable: true, filter: true, width: 150},
-    {headerName: '', field: 'customer.lastname', sortable: true, filter: true}
-    
-    
-   
-    /*{field: 'city', sortable: true, filter: true},
-    {field: 'email', sortable: true, filter: true},
-    {field: 'phone', sortable: true, filter: true},*/
+    {
+      headerName: 'Customer', 
+      field: 'customer.lastname',
+      cellRendererFramework: params => 
+      <div>
+        {`${params.value} ${params.data.customer.firstname} `}
+      </div>,  
+      sortable: true, 
+      filter: true, 
+      width: 200
+    }
   ];
   
   return (
