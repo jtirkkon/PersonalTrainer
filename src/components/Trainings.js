@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AgGridReact } from 'ag-grid-react';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import moment from 'moment';
 
 import 'ag-grid-community/dist/styles/ag-grid.css';
@@ -20,12 +22,40 @@ function Trainings() {
     .catch(err => console.error(err))
   }
 
-  const testing = (date) => {
+  /*const testing = (date) => {
     console.log(date)
     console.log(moment(date).format('MMMM Do YYYY, h:mm:ss a'));
+  }*/
+
+  const deleteTraining = (id) => {
+    console.log("delete traing", id);
+    const url = `https://customerrest.herokuapp.com/api/trainings/${id}`;
+    console.log("url", url);
+
+    if (window.confirm('Delete training?')) {
+      fetch(url, { method: 'DELETE'})
+      .then(response => {
+        if (response.ok) 
+          fetchTrainings();
+        else 
+          alert("Something went wrong!");
+      })
+      .catch(err => console.error(err))
+    }
   }
  
   const columns = [
+    {
+      headerName: '',
+      field: 'id',
+      width: 80,
+      cellRendererFramework: params => 
+      <div>
+        <IconButton color='secondary' onClick={() => deleteTraining(params.value)}>
+          <DeleteIcon />
+        </IconButton>
+      </div>
+    },
     {
       headerName: 'Date', 
       field: 'date',
@@ -43,13 +73,15 @@ function Trainings() {
       field: 'customer.lastname',
       cellRendererFramework: params => 
       <div>
-        {`${params.value} ${params.data.customer.firstname} `}
+        {`${params.value}`}
       </div>,  
       sortable: true, 
       filter: true, 
       width: 200
     }
   ];
+
+  //{`${params.value} ${params.data.customer.firstname} `}
   
   return (
     <div>
@@ -58,7 +90,7 @@ function Trainings() {
           rowData={trainings}
           columnDefs={columns}
           pagination={true}
-          paginationPageSize={8}
+          paginationPageSize={12}
         />
       </div>
     </div>

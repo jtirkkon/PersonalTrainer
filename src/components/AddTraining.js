@@ -6,43 +6,35 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+
 function AddTraining (props) {
-  const [open, setOpen] = useState(props.isOpen);
-  const [training, setTraining] = useState({date: '', activity: '', duration: ''});
-
-  console.log("trainingDialo", props.isOpen);
-
-  //let open = props.isOpen;
-
-  /*useEffect(() => {
-    if (props.isOpen)
-    setOpen(true);  
-  https://stackoverflow.com/questions/63329030/how-i-can-open-a-modal-from-another-component-in-react}, [])
-  https://upmostly.com/tutorials/modal-components-react-custom-hooks
-  
-  */
-
-  const handleClickOpen = () => {
-    //setOpen(true);
-  }
-
+  const [training, setTraining] = useState({date: '', activity: '', duration: '', customer: ''});
+ 
   const handleClose = () => {
-    setOpen(false);
+    setTraining({date: '', activity: '', duration: '', customer: ''});
+    props.handleTrainingDialog(false);
   }
 
   const handleSave = () => {
+    //console.log("customer", props.customer); 
+    //setTraining({...training, date: day2});
+    
     props.addTraining(training);
-    setTraining({date: '', activity: '', duration: ''});
-    //setOpen(false);
+    props.handleTrainingDialog(false);
+    setTraining({date: '', activity: '', duration: '', customer: ''});
   }
 
   const inputChanged = (event) => {
-    setTraining({...training, [event.target.name]: event.target.value});
+    //var d = new Date(2021, 11, 24, 10, 33, 30, 0);
+    /*let day = new Date();
+    day.setDate(25);
+    let convertedDay = day.toISOString();*/
+    setTraining({...training, [event.target.name]: event.target.value, customer: props.customer});
   }
   
   return (
     <div>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog open={props.isOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Add New Training</DialogTitle>
         <DialogContent>
         <TextField
