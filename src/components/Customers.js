@@ -7,10 +7,12 @@ import AddCustomer from './AddCustomer';
 import AddTraining from './AddTraining';
 import EditCustomer from './EditCustomer';
 import Snackbar from '@material-ui/core/Snackbar';
-import moment from 'moment';
+//import moment from 'moment';
 
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-material.css';
+
+//TODO: Kalenteri seuraavaksi
 
 function Customers() {
   const [customers, setCustomers] = useState([]);
@@ -97,15 +99,18 @@ function Customers() {
       hours: newTraining.date.slice(11, 13),
       minutes: newTraining.date.slice(14, 16)
     }
-    //Minuuttien korjaus vielä lengtillä?
-    console.log("dateObj", dateObj.minutes);
+    
+    //console.log("dateObj", dateObj.minutes);
     
     let trainingTime = new Date(dateObj.year, (dateObj.month - 1), dateObj.day, dateObj.hours, dateObj.minutes, 0, 0);
-    const isValidDate = (trainingTime instanceof Date && !isNaN(trainingTime.valueOf()));
-    if (isValidDate)
+    let isValidDate = (trainingTime instanceof Date && !isNaN(trainingTime.valueOf()));
+    if (dateObj.minutes.length < 2) {
+      isValidDate = false;
+    }
+    /*if (isValidDate)
       console.log("oikein")
     else 
-      console.log("virhe")
+      console.log("virhe")*/
     
     if (isValidDate) {
       newTraining.date = trainingTime.toISOString();
@@ -124,14 +129,10 @@ function Customers() {
       .catch(err => console.error(err))
     }
     else {
-      alert("Check your date! Format is DD.MM.YYYY TT:TT, e.g. 12.04.2021 16:00");  
+      alert("Check your date! Format is DD.MM.YYYY TT:TT, e.g. 28.04.2021 16:00");  
     }
     //https://customerrest.herokuapp.com/api/trainings
-    console.log("Isoaika", newTraining.date);
-    
-
-    
-    
+    //console.log("Isoaika", newTraining.date);
   }  
     
     /*Body:

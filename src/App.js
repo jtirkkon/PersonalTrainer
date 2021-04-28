@@ -5,6 +5,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab'; 
 import Customers from './components/Customers';
 import Trainings from './components/Trainings';
+import Calendar from './components/Calendar';
 
 import './App.css';
 
@@ -25,11 +26,13 @@ function App() {
         <Tabs value={value} onChange={(event, value) => setValue(value) }>
           <Tab value="customers" label="CUSTOMERS"/>
           <Tab value="trainings" label="TRAININGS"/>
+          <Tab value="calendar" label="CALENDAR"/>
           
         </Tabs>
         </AppBar>
           {value === 'customers' && <Customers />}
           {value === 'trainings' && <Trainings />}
+          {value === 'calendar' && <Calendar />}
     </div>
   );
 }
