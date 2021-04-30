@@ -5,7 +5,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab'; 
 import Customers from './components/Customers';
 import Trainings from './components/Trainings';
-import Calendar from './components/Calendar';
+import TrainingsCalendar from './components/TrainingsCalendar';
 
 import './App.css';
 
@@ -32,7 +32,7 @@ function App() {
         </AppBar>
           {value === 'customers' && <Customers />}
           {value === 'trainings' && <Trainings />}
-          {value === 'calendar' && <Calendar />}
+          {value === 'calendar' && <TrainingsCalendar />}
     </div>
   );
 }

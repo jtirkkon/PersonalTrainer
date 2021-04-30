@@ -12,7 +12,8 @@ import Snackbar from '@material-ui/core/Snackbar';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-material.css';
 
-//TODO: Kalenteri seuraavaksi
+//TODO: Confirm windowin tilalle joku muu?
+//tilasto?
 
 function Customers() {
   const [customers, setCustomers] = useState([]);
@@ -47,8 +48,11 @@ function Customers() {
       headers: { 'Content-type' : 'application/json' }
     })
     .then(response => {
-      if (response.ok)
+      if (response.ok) {
+        setMsg('Customer added');
+        openSnackbar();
         fetchCustomers();
+      }
       else 
         alert("Something went wrong!");
     })
@@ -121,8 +125,10 @@ function Customers() {
         headers: { 'Content-type' : 'application/json' }
       })
       .then(response => {
-        if (response.ok)
-          console.log("training added");
+        if (response.ok) {
+          setMsg('A new training added');
+          openSnackbar();  
+        }
         else 
           alert("Something went wrong!");
       })
@@ -131,9 +137,11 @@ function Customers() {
     else {
       alert("Check your date! Format is DD.MM.YYYY TT:TT, e.g. 28.04.2021 16:00");  
     }
-    //https://customerrest.herokuapp.com/api/trainings
-    //console.log("Isoaika", newTraining.date);
   }  
+
+  const testi = (params) => {
+    console.log(params)
+  }
     
     /*Body:
     {
@@ -151,7 +159,7 @@ function Customers() {
     console.log("isTrDialogVisible", isTrDialogVisible);
     console.log("kuka on", customer);
   }
-  //<Button color='primary' size='small' onClick={() => handleTrainingDialog(true, params.value)}>Add training</Button>
+ 
 
   const columns = [
     {
@@ -173,20 +181,29 @@ function Customers() {
     {
       headerName: '',
       field: 'links.0.href',
-      width: 120,
+      width: 130,
       cellRendererFramework: params =>
         <Button color='primary' size='small' onClick={() => handleTrainingDialog(true, params.value)}>Add training</Button>
     },
     {field: 'firstname', sortable: true, filter: true},
     {field: 'lastname', sortable: true, filter: true},
-    {field: 'streetaddress', sortable: true, filter: true},
-    {field: 'postcode', sortable: true, filter: true},
-    {field: 'city', sortable: true, filter: true},
+    {
+      headerName: 'Address',
+      field: 'links.0.href',
+      width: 300,
+      cellRendererFramework: params =>
+        <div>
+          {`${params.data.streetaddress} ${params.data.city} ${params.data.postcode}`}
+        </div> 
+    },
     {field: 'email', sortable: true, filter: true},
     {field: 'phone', sortable: true, filter: true},
   ];
   
   //vielä käyttäjä välitetään propsina
+  //<IconButton color='secondary' onClick={() => testi(params.data.streetaddress)}>
+  //<DeleteIcon />
+  //</IconButton>
   return (
     <div className="App">
       <div className="ag-theme-material" style={{ height: 600, width: '90%', margin: 'auto'}}>
