@@ -19,7 +19,9 @@ function Customers() {
   const [customers, setCustomers] = useState([]);
   const [isTrDialogVisible, setTrDialogVisible] = useState(false);
   const [currentCustomer, setCurrentCustomer] = useState('');
-  const [open, setOpen] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [deleteUrl, setDeleteUrl] = useState('');
   const [msg, setMsg] = useState('');
   
   useEffect(() => {
@@ -27,11 +29,11 @@ function Customers() {
   }, []);
 
   const openSnackbar = () => {
-    setOpen(true);
+    setOpenSnackbar(true);
   }
 
   const closeSnackbar = () => {
-    setOpen(false);
+    setOpenSnackbar(false);
   }
 
   const fetchCustomers = () => {
@@ -59,10 +61,24 @@ function Customers() {
     .catch(err => console.error(err))
   }
 
-  const deleteCustomer = (url) => {
+  const handleDeleteConfirm = (url) => {
+    setOpenConfirm(true);
+    setDeleteUrl(url);
+  }
+
+  const handleClose = () => {
+    setOpenConfirm(false);
+  };
+
+  const handleOk = () => {
+    deleteCustomer();
+    handleClose();
+  }
+
+  const deleteCustomer = () => {
     //console.log(url);
     if (window.confirm('Delete customer?')) {
-      fetch(url, { method: 'DELETE'})
+      fetch(deleteUrl, { method: 'DELETE'})
       .then(response => {
         if (response.ok) {
           setMsg('Customer deleted');
@@ -159,6 +175,10 @@ function Customers() {
     console.log("isTrDialogVisible", isTrDialogVisible);
     console.log("kuka on", customer);
   }
+
+  /*<IconButton color='secondary' onClick={() => deleteCustomer(params.value)}>
+          <DeleteIcon />
+        </IconButton>*/
  
 
   const columns = [
@@ -167,7 +187,7 @@ function Customers() {
       field: 'links.0.href',
       width: 80,
       cellRendererFramework: params => 
-        <IconButton color='secondary' onClick={() => deleteCustomer(params.value)}>
+        <IconButton color='secondary' onClick={() => handleDeleteConfirm(params.value)}>
           <DeleteIcon />
         </IconButton>
     },
@@ -185,8 +205,15 @@ function Customers() {
       cellRendererFramework: params =>
         <Button color='primary' size='small' onClick={() => handleTrainingDialog(true, params.value)}>Add training</Button>
     },
-    {field: 'firstname', sortable: true, filter: true},
-    {field: 'lastname', sortable: true, filter: true},
+    {
+      headerName: 'Customer',
+      field: 'links.0.href',
+      width: 250,
+      cellRendererFramework: params =>
+        <div>
+          {`${params.data.firstname} ${params.data.lastname}`}
+        </div> 
+    },
     {
       headerName: 'Address',
       field: 'links.0.href',
@@ -200,7 +227,7 @@ function Customers() {
     {field: 'phone', sortable: true, filter: true},
   ];
   
-  //vielä käyttäjä välitetään propsina
+  
   //<IconButton color='secondary' onClick={() => testi(params.data.streetaddress)}>
   //<DeleteIcon />
   //</IconButton>
@@ -222,11 +249,28 @@ function Customers() {
           suppressCellSelection={true}
         />
         <Snackbar 
-        open={open}
+        open={openSnackbar}
         message={msg}
         autoHideDuration={4000}
         onClose={closeSnackbar}
       />
+      
+      <Dialog
+        open={openConfirm}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        
+      >
+        <DialogTitle id="alert-dialog-title">{"Delete customer?"}</DialogTitle>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleOk} color="primary" autoFocus>
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
       </div>
     </div>
   );
