@@ -19,7 +19,7 @@ import 'ag-grid-community/dist/styles/ag-theme-material.css';
 
 function Customers() {
   const [customers, setCustomers] = useState([]);
-  const [customerTrainings, setCustomerTrainings] = useState([]);
+  //const [customerTrainings, setCustomerTrainings] = useState([]);
   const [isTrDialogVisible, setTrDialogVisible] = useState(false);
   const [currentCustomer, setCurrentCustomer] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -104,7 +104,7 @@ function Customers() {
     .then(response => {
       if (response.ok) {
         setMsg('Customer edited succesfully');
-        openSnackbar();
+        openSnackbarWindow();
         fetchCustomers();
       }
       else 
@@ -155,8 +155,6 @@ function Customers() {
   const handleTrainingDialog = (isOpen, customer) => {
     setTrDialogVisible(isOpen);
     setCurrentCustomer(customer);
-    //console.log("isTrDialogVisible", isTrDialogVisible);
-    //console.log("handleTrainingDialog, customer", customer);
   }
 
   const columns = [
@@ -181,7 +179,7 @@ function Customers() {
       field: 'links.0.href',
       width: 80,
       cellRendererFramework: params => 
-        <Statistics link={params.value}/>  
+        <Statistics link={params.value} customer={`${params.data.firstname} ${params.data.lastname}`}/>  
     },
     {
       headerName: '',
@@ -226,7 +224,7 @@ function Customers() {
           rowData={customers}
           columnDefs={columns}
           pagination={true}
-          paginationPageSize={8}
+          paginationPageSize={10}
           suppressCellSelection={true}
         />
         

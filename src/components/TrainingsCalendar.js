@@ -21,8 +21,7 @@ function TrainingsCalendar () {
   }
 
   let trainingEvents = [];
-  //let trainingsTable = [];
-
+  
   if (trainings.length > 0) {
     trainings.forEach(function(item) {
       trainingEvents.push({
@@ -42,7 +41,7 @@ function TrainingsCalendar () {
           moment(item.date).clone().add(item.duration, 'minutes').format('HH'), 
           moment(item.date).clone().add(item.duration, 'minutes').format('mm')
         )
-        })
+      })
     });
   }
   
@@ -60,27 +59,3 @@ function TrainingsCalendar () {
 }
 
 export default TrainingsCalendar;
-
-
-/*<div>
-
-
-
-{
-          'title': 'My event',
-          'allDay': false,
-          'start': new Date(2021, 0, 1, 10, 0), // 10.00 AM
-          'end': new Date(2021, 0, 1, 14, 0), // 2.00 PM 
-        },
-        {
-          'title': 'Gym',
-          'allDay': false,
-          'start': new Date(2021, 3, 1, 10, 0), // 10.00 AM
-          'end': new Date(2021, 3, 1, 14, 0), // 2.00 PM 
-        },
-        {
-          'title': 'Spinning',
-          'allDay': false,
-          'start': new Date(2021, 3, 1, 14, 0), // 10.00 AM
-          'end': new Date(2021, 3, 1, 16, 0), // 2.00 PM 
-        }*/

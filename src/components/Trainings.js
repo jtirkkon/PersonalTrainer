@@ -11,7 +11,6 @@ import moment from 'moment';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-material.css';
 
-
 function Trainings() {
   const [trainings, setTrainings] = useState([]);
   const [openConfirm, setOpenConfirm] = useState(false);
@@ -44,7 +43,7 @@ function Trainings() {
 
   const deleteTraining = () => {
     const url = `https://customerrest.herokuapp.com/api/trainings/${deleteId}`;
-    //console.log("url", url);
+    
     fetch(url, { method: 'DELETE'})
       .then(response => {
         if (response.ok) 
@@ -61,11 +60,9 @@ function Trainings() {
       field: 'id',
       width: 80,
       cellRendererFramework: params => 
-      <div>
         <IconButton color='secondary' onClick={() => handleDeleteConfirm(params.value)}>
           <DeleteIcon />
         </IconButton>
-      </div>
     },
     {
       headerName: 'Date', 
@@ -99,6 +96,7 @@ function Trainings() {
           rowData={trainings}
           columnDefs={columns}
           pagination={true}
+          suppressCellSelection={true}
           paginationPageSize={12}
         />
       </div>
@@ -107,7 +105,6 @@ function Trainings() {
         open={openConfirm}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
-        
       >
         <DialogTitle id="alert-dialog-title">{"Delete training?"}</DialogTitle>
         <DialogActions>

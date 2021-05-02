@@ -8,8 +8,6 @@ import TrainingsCalendar from './components/TrainingsCalendar';
 
 import './App.css';
 
-//Todo: Koodin siistiminen ja testaus
-
 function App() {
   
   const [value, setValue] = useState('customers');

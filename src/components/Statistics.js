@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
@@ -24,12 +24,13 @@ const useStyles = makeStyles((theme) => ({
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [customerTrainings, setCustomerTrainings] = useState([]);
+  const [customer, setCustomer] = useState('');
   
   let data = [];
 
   const handleClickOpen = () => {
+    setCustomer(props.customer);
     setOpen(true);
-    //console.log("linkki", props.link);
     const url = `${props.link}/trainings`;
     fetch(url)
     .then(response => response.json())
@@ -43,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
   if (customerTrainings.length > 0) {
     const tempArr = Object.values(_.groupBy(customerTrainings, item => item.activity));
-    //console.log("render in stat");
+    
     tempArr.forEach(item => {
       data.push({name: item[0].activity, time: _.sumBy(item, 'duration')});
     });
@@ -60,6 +61,9 @@ const useStyles = makeStyles((theme) => ({
             <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
               <CloseIcon />
             </IconButton>
+            <div>
+              {customer}
+            </div>
           </Toolbar>
         </AppBar>
         <ResponsiveContainer width="100%" height="100%">
