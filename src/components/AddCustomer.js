@@ -10,8 +10,6 @@ function AddCustomer (props) {
   const [open, setOpen] = useState(false);
   const [customer, setCustomer] = useState({firstname: '', lastname: '', streetaddress: '', postcode: '', city: '', email: '', phone: ''});
 
-  
-  
   const handleClickOpen = () => {
     setOpen(true);
   }

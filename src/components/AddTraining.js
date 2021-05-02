@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -16,19 +16,12 @@ function AddTraining (props) {
   }
 
   const handleSave = () => {
-    //console.log("customer", props.customer); 
-    //setTraining({...training, date: day2});
-    
     props.addTraining(training);
     props.handleTrainingDialog(false);
     setTraining({date: '', activity: '', duration: '', customer: ''});
   }
 
   const inputChanged = (event) => {
-    //var d = new Date(2021, 11, 24, 10, 33, 30, 0);
-    /*let day = new Date();
-    day.setDate(25);
-    let convertedDay = day.toISOString();*/
     setTraining({...training, [event.target.name]: event.target.value, customer: props.customer});
   }
   
