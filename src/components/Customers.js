@@ -19,7 +19,6 @@ import 'ag-grid-community/dist/styles/ag-theme-material.css';
 
 function Customers() {
   const [customers, setCustomers] = useState([]);
-  //const [customerTrainings, setCustomerTrainings] = useState([]);
   const [isTrDialogVisible, setTrDialogVisible] = useState(false);
   const [currentCustomer, setCurrentCustomer] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -40,7 +39,6 @@ function Customers() {
   }
 
   const addCustomer = (newCustomer) => {
-    //console.log("treenit", customerTrainings);
     fetch('https://customerrest.herokuapp.com/api/customers', {
       method: 'POST',
       body: JSON.stringify(newCustomer),
@@ -72,7 +70,6 @@ function Customers() {
   }
 
   const handleClose = () => {
-    //console.log("treenit", customerTrainings);
     setOpenConfirm(false);
   };
 
